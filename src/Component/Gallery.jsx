@@ -78,9 +78,9 @@ const Gallery = () => {
         <Droppable
           droppableId="image-gallery"
           direction="horizontal"
-          mode=""
-          isCombineEnabled={true}
-          ignoreContainerClipping={true}
+          // mode=""
+          // isCombineEnabled={true}
+          ignoreContainerClipping={false}
           // isCombineEnabled={false}
         >
           {(provided) => (
@@ -96,9 +96,9 @@ const Gallery = () => {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      className={` col-span-${i === 0 ? "2" : "1"} row-span-${
-                        i === 0 ? "2" : "1"
-                      } border-2 border-gray-400 rounded-xl shadow-md relative group cursor-pointer `}
+                      className={` col-span-${i == 0 ? "2" : "1"} row-span-${
+                        i == 0 ? "2" : "1"
+                      } border-2 border-gray-400 rounded-xl shadow-md relative group cursor-pointer first:col-span-2 first:row-span-2 `}
                       key={i}
                       onClick={() => handleImageClick(i)}
                     >
@@ -112,6 +112,7 @@ const Gallery = () => {
                       <div className="rounded-lg hidden w-full h-full absolute top-0 bg-[rgba(0,0,0,0.2)] transition ease-in-out delay-150 p-5 group-hover:block">
                         <input
                           type="checkbox"
+                          checked={false}
                           name=""
                           id=""
                           style={{
