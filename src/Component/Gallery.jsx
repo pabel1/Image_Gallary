@@ -96,9 +96,7 @@ const Gallery = () => {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      className={`col-span-2 sm:col-span-${
-                        i === 0 ? "2" : "1"
-                      } row-span-2 sm:row-span-${
+                      className={` col-span-${i === 0 ? "2" : "1"} row-span-${
                         i === 0 ? "2" : "1"
                       } border-2 border-gray-400 rounded-xl shadow-md relative group cursor-pointer `}
                       key={i}
