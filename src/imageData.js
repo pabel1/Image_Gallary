@@ -13,46 +13,46 @@ import image9 from "./assets/images/image-9.webp";
 export const data = [
   {
     image: image1,
-    id: "1",
+    id: 1,
   },
   {
     image: image2,
-    id: "2",
+    id: 2,
   },
   {
     image: image3,
-    id: "3",
+    id: 3,
   },
   {
     image: image4,
-    id: "4",
+    id: 4,
   },
   {
     image: image5,
-    id: "5",
+    id: 5,
   },
   {
     image: image6,
-    id: "6",
+    id: 6,
   },
   {
     image: image7,
-    id: "7",
+    id: 7,
   },
   {
     image: image8,
-    id: "8",
+    id: 8,
   },
   {
     image: image9,
-    id: "9",
+    id: 9,
   },
   {
     image: image10,
-    id: "10",
+    id: 10,
   },
   {
     image: image11,
-    id: "11",
+    id: 11,
   },
 ];

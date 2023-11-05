@@ -33,104 +33,108 @@ const Gallery = () => {
     setFeatureImage(images[0]);
   };
   const onDragEnd = (result) => {
-    console.log(result);
-    if (!result.destination) {
-      return;
-    }
+    if (!result.destination) return;
 
     const reorderedImages = Array.from(images);
-    const [movedImage] = reorderedImages.splice(result.source.index, 1);
-    reorderedImages.splice(result.destination.index, 0, movedImage);
+    const [reorderedImage] = reorderedImages.splice(result.source.index, 1);
+    reorderedImages.splice(result.destination.index, 0, reorderedImage);
 
     setImages(reorderedImages);
   };
-
-  function getStyle(style, snapshot) {
-    const animationClass = snapshot.isDragging
-      ? "border-red-500 animate-flash" // Apply the flashing animation class when dragging
-      : "";
-
-    if (!snapshot.isDropAnimating) {
-      return style;
-    }
-
-    const { duration } = snapshot.dropAnimation;
-
-    // patching the existing style
-    return {
-      ...style,
-      transition: `${duration + 0.1}s`,
-      animation: animationClass,
-    };
-  }
   return (
-    <div className="p-4">
+    <div className="py-2 w-full px-8">
       {/* Conditional rendering based on selected images */}
-      {selectedImages.length > 0 ? (
-        <div className="w-full flex items-center justify-between border-b-2 border-gray-400 p-6">
-          <div className="flex items-center gap-3">
-            <input checked type="checkbox" name="" id="" />
-            <h1 className="text-xl text-gray-800">
-              {selectedImages.length} Files Selected
-            </h1>
-          </div>
-          <div>
+      <div className=" border-b-2">
+        {selectedImages.length > 0 ? (
+          <div className=" flex items-center justify-between py-2 px-6">
+            <div className="flex items-center gap-3">
+              <input
+                checked
+                type="checkbox"
+                name=""
+                id=""
+                style={{
+                  width: "20px",
+                  height: "20px",
+                }}
+              />
+              <h1 className="text-xl text-gray-800">
+                {selectedImages.length} Files Selected
+              </h1>
+            </div>
+
             <button className="text-red-600" onClick={handleDeleteImages}>
               Delete File
             </button>
           </div>
-        </div>
-      ) : (
-        <h1 className="text-xl text-gray-800 font-semibold px-6 border-b-2 border-gray-400">
-          Gallery
-        </h1>
-      )}
-
+        ) : (
+          <div className="px-6 py-2">
+            {" "}
+            <h1 className=" text-xl text-gray-800 font-semibold ">Gallery</h1>
+          </div>
+        )}
+      </div>
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId={"droppableId"} type="drag">
-          {(provided, snapshot) => (
+        <Droppable
+          droppableId="image-gallery"
+          direction="horizontal"
+          mode=""
+          isCombineEnabled={true}
+          ignoreContainerClipping={true}
+          // isCombineEnabled={false}
+        >
+          {(provided) => (
             <div
               className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-rows-3 gap-4 mt-4 p-6"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
               {images.map((item, i) => (
-                <Draggable key={item.id} draggableId={item?.id} index={i}>
-                  {(provided, snapshot) => (
+                <Draggable key={i} draggableId={`image-${i}`} index={i}>
+                  {(provided) => (
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      className={`col-span-1 sm:col-span-${
-                        item.id === "1" ? "2" : "1"
-                      } row-span-1 sm:row-span-${
-                        item.id === "1" ? "2" : "1"
-                      } border-2 border-gray-400 rounded-xl shadow-md relative group cursor-pointer`}
-                      key={item.id}
-                      onClick={() => handleImageClick(item.id)}
+                      className={`col-span-2 sm:col-span-${
+                        i === 0 ? "2" : "1"
+                      } row-span-2 sm:row-span-${
+                        i === 0 ? "2" : "1"
+                      } border-2 border-gray-400 rounded-xl shadow-md relative group cursor-pointer `}
+                      key={i}
+                      onClick={() => handleImageClick(i)}
                     >
                       <img
-                        className="rounded-lg"
+                        className="rounded-lg w-full"
                         src={item.image}
-                        alt={`Image ${item.id}`}
+                        alt={`Image ${i + 1}`}
                       />
 
                       {/* Checkbox overlay on hover */}
-                      <div
-                        className="rounded-lg hidden w-full h-full absolute top-0 bg-[rgba(0,0,0,0.2)] transition ease-in-out delay-150 p-5 group-hover:block"
-                        onClick={() => handleImageClick(item.id)}
-                      >
-                        <input type="checkbox" name="" id="" />
+                      <div className="rounded-lg hidden w-full h-full absolute top-0 bg-[rgba(0,0,0,0.2)] transition ease-in-out delay-150 p-5 group-hover:block">
+                        <input
+                          type="checkbox"
+                          name=""
+                          id=""
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                          }}
+                        />
                       </div>
 
                       {/* Checked checkbox overlay for selected images */}
-                      {selectedImages.includes(item.id) && (
+                      {selectedImages.includes(i) && (
                         <div className="w-full h-full absolute top-0 bg-[rgba(0,0,0.5,0.2)] transition ease-in-out delay-150 p-5">
                           <input
                             type="checkbox"
                             checked
                             className="text-blue-500"
-                            onChange={() => handleImageClick(item.id)}
+                            onChange={() => handleImageClick(i)}
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                            }}
                           />
                         </div>
                       )}
@@ -138,6 +142,7 @@ const Gallery = () => {
                   )}
                 </Draggable>
               ))}
+              {provided.placeholder}
 
               {/* Placeholder for adding images */}
               <div
@@ -155,5 +160,4 @@ const Gallery = () => {
     </div>
   );
 };
-
 export default Gallery;
