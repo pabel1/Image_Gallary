@@ -7,7 +7,6 @@ const Gallery = () => {
   // State for images, selected images, and the featured image
   const [images, setImages] = useState(data);
   const [selectedImages, setSelectedImages] = useState([]);
-  const [featureImage, setFeatureImage] = useState(images[0]);
 
   // Handle image selection and deselection
   const handleImageClick = (index) => {
@@ -28,10 +27,6 @@ const Gallery = () => {
     setSelectedImages([]);
   };
 
-  // Set the first image as the feature image
-  const handleSetFeatureImage = () => {
-    setFeatureImage(images[0]);
-  };
   const onDragEnd = (result) => {
     if (!result.destination) return;
 
@@ -80,7 +75,7 @@ const Gallery = () => {
           direction="horizontal"
           // mode=""
           // isCombineEnabled={true}
-          ignoreContainerClipping={false}
+          ignoreContainerClipping={true}
           // isCombineEnabled={false}
         >
           {(provided) => (
